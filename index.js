@@ -10,7 +10,7 @@ const getLanguageMap = (key) => {
 
 const translateChar = (char, map, isEncryption) => {
   const translatedChar = isEncryption
-    ? map[char.toLowerCase()]
+    ? map[char.toUpperCase()]
     : Object.keys(map).find((k) => map[k] === char.toLowerCase());
 
   return translatedChar
