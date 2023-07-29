@@ -10,25 +10,50 @@ const getLanguageMap = (key) => {
 
 const translateChar = (char, map, isEncryption) => {
   const translatedChar = isEncryption
-    ? map[char.toUpperCase()]
-    : Object.keys(map).find((k) => map[k] === char.toLowerCase());
+    ? map[char]
+    : Object.keys(map).find((k) => map[k] === char);
 
-  return translatedChar
-    ? char === char.toUpperCase()
-      ? translatedChar.toUpperCase()
-      : translatedChar
-    : char;
+  return translatedChar || char;
 };
 
-const translateMessage = (message, key, isEncryption) => {
+let lookupObject = new Map();
+
+const encrypt = (message, key) => {
   const languageMap = getLanguageMap(key);
-  return message
-    .split("")
-    .map((char) => translateChar(char, languageMap, isEncryption))
-    .join("");
+  let encryptedMessage = "";
+  let messageLookup = {};
+
+  for (let i = 0; i < message.length; i++) {
+    let char = message[i];
+    let encryptedChar = translateChar(char, languageMap, true);
+
+    // Include the position in the key
+    let keyWithPosition = encryptedChar + i;
+
+    messageLookup[keyWithPosition] = char;
+    encryptedMessage += encryptedChar;
+  }
+
+  lookupObject.set(key, messageLookup);
+
+  return encryptedMessage;
 };
 
-const encrypt = (message, key) => translateMessage(message, key, true);
-const decrypt = (message, key) => translateMessage(message, key, false);
+const decrypt = (encryptedMessage, key) => {
+  const messageLookup = lookupObject.get(key);
+  let decryptedMessage = "";
+
+  for (let i = 0; i < encryptedMessage.length; i++) {
+    let char = encryptedMessage[i];
+
+    // Include the position in the key
+    let keyWithPosition = char + i;
+
+    let originalChar = messageLookup[keyWithPosition];
+    decryptedMessage += originalChar || char;
+  }
+
+  return decryptedMessage;
+};
 
 module.exports = { encrypt, decrypt };
