@@ -1,6 +1,6 @@
 {
   "name": "td-crynt",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An overly simple and underwhelmingly secure encryption library",
   "homepage": "https://github.com/tomdaniels/td-crynt",
   "main": "index.js",

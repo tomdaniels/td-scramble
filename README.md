@@ -1,4 +1,4 @@
-# td-crynt
+# td-crynt [![NPM version][npm-badge]][npm-url]
 
 An overly simple and underwhelmingly secure encryption library for experimental/learning purposes. Crynt is an albeit a horrible cross section between "crypt" and "int", short for international. Naming things is hard.
 
@@ -20,3 +20,6 @@ console.log(decryptedMessage); // => some amazingly non-secret secret
 ```
 
 supported signing keys include: ['arabic', 'hebrew', 'russian', 'tibetan']
+
+[npm-badge]: https://badge.fury.io/js/td-crynt.svg
+[npm-url]: https://www.npmjs.com/package/td-crynt
