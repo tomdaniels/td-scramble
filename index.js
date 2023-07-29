@@ -1,4 +1,4 @@
-const { languageMappings, keys } = require("./mappings/index.js");
+const { languageMappings } = require("./mappings/index.js");
 
 const getLanguageMap = (key) => {
   const languageMap = languageMappings.get(key);
