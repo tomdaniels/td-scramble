@@ -1,7 +1,8 @@
 {
   "name": "td-crynt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An overly simple and underwhelmingly secure encryption library",
+  "homepage": "https://github.com/tomdaniels/td-crynt",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
