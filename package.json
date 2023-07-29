@@ -1,6 +1,6 @@
 {
   "name": "td-scramble",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An overly simple and underwhelmingly secure encryption library",
   "homepage": "https://github.com/tomdaniels/td-scramble",
   "main": "index.js",
