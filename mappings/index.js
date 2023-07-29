@@ -17,4 +17,4 @@ const languageMappings = new Map([
   [keys.TIBETAN, tibetan],
 ]);
 
-module.exports = { languageMappings };
+module.exports = { keys, languageMappings };

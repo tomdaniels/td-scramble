@@ -1,4 +1,4 @@
-const { languageMappings } = require("./mappings/index.js");
+const { languageMappings, keys } = require("./mappings/index.js");
 
 const getLanguageMap = (key) => {
   const languageMap = languageMappings.get(key);
@@ -9,51 +9,36 @@ const getLanguageMap = (key) => {
 };
 
 const translateChar = (char, map, isEncryption) => {
-  const translatedChar = isEncryption
-    ? map[char]
-    : Object.keys(map).find((k) => map[k] === char);
-
+  const translatedChar = isEncryption ? map[char] : getKeyByValue(map, char);
   return translatedChar || char;
+};
+
+const getKeyByValue = (object, value) => {
+  return Object.keys(object).find((key) => object[key] === value);
 };
 
 let lookupObject = new Map();
 
 const encrypt = (message, key) => {
   const languageMap = getLanguageMap(key);
-  let encryptedMessage = "";
   let messageLookup = {};
 
-  for (let i = 0; i < message.length; i++) {
-    let char = message[i];
-    let encryptedChar = translateChar(char, languageMap, true);
-
-    // Include the position in the key
-    let keyWithPosition = encryptedChar + i;
-
-    messageLookup[keyWithPosition] = char;
-    encryptedMessage += encryptedChar;
-  }
+  const processedMessage = [...message].reduce((result, char, i) => {
+    const processedChar = translateChar(char, languageMap, true);
+    messageLookup[processedChar + i] = char;
+    return result + processedChar;
+  }, "");
 
   lookupObject.set(key, messageLookup);
-
-  return encryptedMessage;
+  return processedMessage;
 };
 
 const decrypt = (encryptedMessage, key) => {
   const messageLookup = lookupObject.get(key);
-  let decryptedMessage = "";
 
-  for (let i = 0; i < encryptedMessage.length; i++) {
-    let char = encryptedMessage[i];
-
-    // Include the position in the key
-    let keyWithPosition = char + i;
-
-    let originalChar = messageLookup[keyWithPosition];
-    decryptedMessage += originalChar || char;
-  }
-
-  return decryptedMessage;
+  return [...encryptedMessage]
+    .map((char, i) => messageLookup[char + i] || char)
+    .join("");
 };
 
 module.exports = { encrypt, decrypt };
